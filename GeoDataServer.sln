@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoDataServer", "GeoDataServer\GeoDataServer.csproj", "{518CD550-300D-40A6-9CE3-C867B86F1313}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoDataServer.Tests", "GeoDataServer.Tests\GeoDataServer.Tests.csproj", "{9B58F246-99F3-4C88-8FC7-C4DC65C45B8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoDataDB", "GeoDataDB\GeoDataDB.csproj", "{9F7D8E4E-588B-4A6E-97FD-F483F19161B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoDataConsumer", "GeoDataConsumer\GeoDataConsumer.csproj", "{154B2667-5C35-4114-8372-55F9ECA48148}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{518CD550-300D-40A6-9CE3-C867B86F1313}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{518CD550-300D-40A6-9CE3-C867B86F1313}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{518CD550-300D-40A6-9CE3-C867B86F1313}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{518CD550-300D-40A6-9CE3-C867B86F1313}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B58F246-99F3-4C88-8FC7-C4DC65C45B8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B58F246-99F3-4C88-8FC7-C4DC65C45B8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B58F246-99F3-4C88-8FC7-C4DC65C45B8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B58F246-99F3-4C88-8FC7-C4DC65C45B8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F7D8E4E-588B-4A6E-97FD-F483F19161B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F7D8E4E-588B-4A6E-97FD-F483F19161B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F7D8E4E-588B-4A6E-97FD-F483F19161B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F7D8E4E-588B-4A6E-97FD-F483F19161B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{154B2667-5C35-4114-8372-55F9ECA48148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{154B2667-5C35-4114-8372-55F9ECA48148}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{154B2667-5C35-4114-8372-55F9ECA48148}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{154B2667-5C35-4114-8372-55F9ECA48148}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

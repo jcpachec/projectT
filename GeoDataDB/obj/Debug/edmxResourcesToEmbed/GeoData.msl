@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TGeoDataModelStoreContainer" CdmEntityContainer="TGeoDataEntities">
+    <EntitySetMapping Name="GeoDatas">
+      <EntityTypeMapping TypeName="TGeoDataModel.GeoData">
+        <MappingFragment StoreEntitySet="GeoData">
+          <ScalarProperty Name="recordID" ColumnName="recordID" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="latitude" ColumnName="latitude" />
+          <ScalarProperty Name="longitude" ColumnName="longitude" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="remarks" ColumnName="remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

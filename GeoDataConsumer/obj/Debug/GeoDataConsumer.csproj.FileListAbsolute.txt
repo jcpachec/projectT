@@ -1,0 +1,5 @@
+C:\Users\jcpachec\Documents\GeoData\GeoDataServer\GeoDataConsumer\bin\GeoDataConsumer.dll
+C:\Users\jcpachec\Documents\GeoData\GeoDataServer\GeoDataConsumer\bin\GeoDataConsumer.pdb
+C:\Users\jcpachec\Documents\GeoData\GeoDataServer\GeoDataConsumer\obj\Debug\GeoDataConsumer.csprojResolveAssemblyReference.cache
+C:\Users\jcpachec\Documents\GeoData\GeoDataServer\GeoDataConsumer\obj\Debug\GeoDataConsumer.dll
+C:\Users\jcpachec\Documents\GeoData\GeoDataServer\GeoDataConsumer\obj\Debug\GeoDataConsumer.pdb
