@@ -6,16 +6,19 @@ var Data1=null;
 function initialize() {
     var mapProp = {
         center: myCenter,
-        zoom: 11,
+        zoom: 10,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
    
     var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
-    var bounds = new google.maps.LatLngBounds();
+    var bounds = new google.maps.LatLngBounds();    
 
-    function SetMarker(latitude, longitude) {
+    map.setCenter(myCenter);
+
+
+    function SetMarker(latitude, longitude, description) {
 
         var myCenter = new google.maps.LatLng(latitude, longitude);
 
@@ -23,7 +26,8 @@ function initialize() {
 
         var marker = new google.maps.Marker({
             position: myCenter,
-            icon: image
+            icon: image,
+            title: description
         });
 
 
@@ -33,8 +37,30 @@ function initialize() {
         //begin loop
         bounds.extend(myCenter);
         //end loop
+    }
 
+    function SetMarkers(latitude, longitude, description) {
 
+        $.ajax({
+            url: RootUrl + "api/GeoData",
+            type: "POST",
+            cache: false,
+            data: JSON.stringify({ description: description, latitude: latitude, longitude: longitude, time: "2015-05-20T23:24:27.279449-05:00", remarks: "." }),
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                
+            },
+            error: function (result, errorText, errorThrown) {
+                
+            },
+            beforeSend: function () {
+                
+            },
+            complete: function () {
+                
+            },
+        });
     }
 
     function getMarkers() {
@@ -50,11 +76,19 @@ function initialize() {
                 console.log(data);
 
                 $.each(data, function (index, item) {
-                    //console.log("Add Marker");
-                    //console.log(item);
-
-                    SetMarker(item.latitude, item.longitude);
+                                    
+                    SetMarker(item.latitude, item.longitude, item.description);
                 });              
+
+                var latlngbounds = new google.maps.LatLngBounds();
+
+                map.setCenter(latlngbounds.getCenter());
+                map.fitBounds(bounds);
+
+                google.maps.event.addListenerOnce(map, 'bounds_changed', function (event) {
+                    console.log("bounds_changed");
+                    this.setZoom(this.getZoom() -1);        
+                });
 
             },
             error: function (result, errorText, errorThrown) {
@@ -70,13 +104,7 @@ function initialize() {
     }
   
     getMarkers();
-
-    map.setZoom(24);
-    map.fitBounds(bounds);    
-    
-    google.maps.event.addListenerOnce(map, 'bounds_changed', function (event) {        
-        this.setZoom(this.getZoom() -1);        
-    });
+     
 
     google.maps.event.addListener(map, 'click', function (event) {
         placeMarker(event.latLng);
@@ -88,7 +116,9 @@ function initialize() {
             map: map
         });
 
-        //map.setCenter(location);
+
+        SetMarkers(location.lat(), location.lng(), "test");
+        
     }
     
 }
