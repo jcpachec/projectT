@@ -5,7 +5,7 @@ var RootUrl = "http://localhost:50691/";
 function initialize() {
     var mapProp = {
         center: myCenter,
-        zoom: 5,
+        zoom: 1,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };   
 }
