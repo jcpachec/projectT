@@ -1,0 +1,7 @@
+C:\ProjectT\ProjectT2\GeoDataDB\bin\Release\GeoDataDB.dll.config
+C:\ProjectT\ProjectT2\GeoDataDB\bin\Release\GeoDataDB.dll
+C:\ProjectT\ProjectT2\GeoDataDB\bin\Release\GeoDataDB.pdb
+C:\ProjectT\ProjectT2\GeoDataDB\bin\Release\EntityFramework.dll
+C:\ProjectT\ProjectT2\GeoDataDB\bin\Release\EntityFramework.xml
+C:\ProjectT\ProjectT2\GeoDataDB\obj\Release\GeoDataDB.dll
+C:\ProjectT\ProjectT2\GeoDataDB\obj\Release\GeoDataDB.pdb

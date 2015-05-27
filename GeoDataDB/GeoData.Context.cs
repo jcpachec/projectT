@@ -26,5 +26,6 @@ namespace GeoDataDB
         }
     
         public DbSet<GeoData> GeoDatas { get; set; }
+        public DbSet<Config> Configs { get; set; }
     }
 }

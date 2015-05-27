@@ -6,6 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="820d94de78064de9ba44cdce0596d89f" Name="Diagram1">
         <EntityTypeShape EntityType="TGeoDataModel.GeoData" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TGeoDataModel.Config" Width="1.5" PointX="10.523245028463773" PointY="24.990957003548257" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

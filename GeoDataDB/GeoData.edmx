@@ -4,10 +4,21 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TGeoDataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TGeoDataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="TGeoDataModelStoreContainer">
+          <EntitySet Name="Configs" EntityType="TGeoDataModel.Store.Configs" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GeoData" EntityType="TGeoDataModel.Store.GeoData" store:Type="Tables" Schema="dbo" />
         </EntityContainer>
+        <EntityType Name="Configs">
+          <Key>
+            <PropertyRef Name="ConfigId" />
+          </Key>
+          <Property Name="ConfigId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Class" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Attribute" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="2000" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="250" />
+        </EntityType>
         <EntityType Name="GeoData">
           <Key>
             <PropertyRef Name="recordID" />
@@ -19,13 +30,13 @@
           <Property Name="time" Type="datetime" Nullable="false" />
           <Property Name="remarks" Type="nvarchar" Nullable="false" MaxLength="500" />
         </EntityType>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TGeoDataModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="TGeoDataEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="GeoDatas" EntityType="TGeoDataModel.GeoData" />
+          <EntitySet Name="Configs" EntityType="TGeoDataModel.Config" />
         </EntityContainer>
         <EntityType Name="GeoData">
           <Key>
@@ -37,6 +48,16 @@
           <Property Name="longitude" Type="Double" Nullable="false" />
           <Property Name="time" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="remarks" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Config">
+          <Key>
+            <PropertyRef Name="ConfigId" />
+          </Key>
+          <Property Type="Int32" Name="ConfigId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Class" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Attribute" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Value" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Remarks" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -53,6 +74,17 @@
                 <ScalarProperty Name="longitude" ColumnName="longitude" />
                 <ScalarProperty Name="time" ColumnName="time" />
                 <ScalarProperty Name="remarks" ColumnName="remarks" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Configs">
+            <EntityTypeMapping TypeName="TGeoDataModel.Config">
+              <MappingFragment StoreEntitySet="Configs">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Attribute" ColumnName="Attribute" />
+                <ScalarProperty Name="Class" ColumnName="Class" />
+                <ScalarProperty Name="ConfigId" ColumnName="ConfigId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

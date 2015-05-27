@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.cs">
+      <DependentUpon>GeoData.tt</DependentUpon>
+    </Compile>
     <Compile Include="GeoData.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

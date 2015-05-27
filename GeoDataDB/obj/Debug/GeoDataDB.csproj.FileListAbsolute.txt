@@ -6,3 +6,11 @@ C:\Users\jcpachec\Documents\GeoData\GeoDataServer\GeoDataDB\bin\Debug\EntityFram
 C:\Users\jcpachec\Documents\GeoData\GeoDataServer\GeoDataDB\obj\Debug\GeoDataDB.csprojResolveAssemblyReference.cache
 C:\Users\jcpachec\Documents\GeoData\GeoDataServer\GeoDataDB\obj\Debug\GeoDataDB.dll
 C:\Users\jcpachec\Documents\GeoData\GeoDataServer\GeoDataDB\obj\Debug\GeoDataDB.pdb
+C:\ProjectT\ProjectT2\GeoDataDB\bin\Debug\GeoDataDB.dll.config
+C:\ProjectT\ProjectT2\GeoDataDB\bin\Debug\GeoDataDB.dll
+C:\ProjectT\ProjectT2\GeoDataDB\bin\Debug\GeoDataDB.pdb
+C:\ProjectT\ProjectT2\GeoDataDB\bin\Debug\EntityFramework.dll
+C:\ProjectT\ProjectT2\GeoDataDB\bin\Debug\EntityFramework.xml
+C:\ProjectT\ProjectT2\GeoDataDB\obj\Debug\GeoDataDB.dll
+C:\ProjectT\ProjectT2\GeoDataDB\obj\Debug\GeoDataDB.pdb
+C:\ProjectT\ProjectT2\GeoDataDB\obj\Debug\GeoDataDB.csprojResolveAssemblyReference.cache

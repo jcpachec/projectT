@@ -1,4 +1,5 @@
 ﻿using GeoDataDB;
+using GeoDataServer.Repo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +12,42 @@ namespace GeoDataServer.Controllers
     public class GeoDataController : ApiController
     {
 
+        
         // GET api/geodata/5
         public IEnumerable<GeoData> Get()
         {
-
             TGeoDataEntities dbContext = new TGeoDataEntities();
+                                  
 
-            var locations = from k in dbContext.GeoDatas
-                            select k;
+            string Mode = ConfigHelper.getValue("GlobalConfig", "Mode");
 
-            return locations.AsEnumerable();
+            switch (Mode)
+            {
+                case "STOP": return null; 
 
+                case "DEBUG": var locations = from k in dbContext.GeoDatas
+                                              select k;
+                    return locations.AsEnumerable();                    
+
+                case "NORMAL":
+                    BussinesLogic _bussinesLogic = new BussinesLogic();
+                    if (_bussinesLogic.IsTimeToDisplayMarkers())
+                    {
+                        DateTime initDate =  _bussinesLogic.getStartTimeforMarkers();
+                        DateTime endDate = _bussinesLogic.getStartTimeforMarkers().AddDays(1);
+
+                        var locations1 = from k1 in dbContext.GeoDatas
+                                         where k1.time >= initDate && k1.time <= endDate
+                                         select k1;
+                        return locations1.AsEnumerable();
+                    }
+
+                    break;
+            }           
+
+            return null;
         }
-
+                                          
         // GET api/geodata/5
         public IEnumerable<GeoData> Get(DateTime StartDate, DateTime EndDate)
         {
