@@ -15,18 +15,12 @@ namespace GeoDataDB
 using System;
     using System.Collections.Generic;
     
-public partial class Config
+public partial class Logger
 {
 
-    public int ConfigId { get; set; }
+    public int logId { get; set; }
 
-    public string Class { get; set; }
-
-    public string Attribute { get; set; }
-
-    public string Value { get; set; }
-
-    public string Remarks { get; set; }
+    public string log { get; set; }
 
 }
 

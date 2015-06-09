@@ -1,28 +1,69 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="TGeoDataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="TGeoDataModelStoreContainer">
-    <EntitySet Name="Configs" EntityType="TGeoDataModel.Store.Configs" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="GeoData" EntityType="TGeoDataModel.Store.GeoData" store:Type="Tables" Schema="dbo" />
-  </EntityContainer>
+<Schema Namespace="TGeoDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="categoryId" />
+    </Key>
+    <Property Name="categoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="categoryName" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
   <EntityType Name="Configs">
     <Key>
       <PropertyRef Name="ConfigId" />
     </Key>
-    <Property Name="ConfigId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="Class" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="Attribute" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="2000" />
+    <Property Name="ConfigId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Class" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Attribute" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Value" Type="nvarchar" MaxLength="2000" Nullable="false" />
     <Property Name="Remarks" Type="nvarchar" MaxLength="250" />
   </EntityType>
   <EntityType Name="GeoData">
     <Key>
       <PropertyRef Name="recordID" />
     </Key>
-    <Property Name="recordID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="description" Type="nvarchar" Nullable="false" MaxLength="200" />
+    <Property Name="recordID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="description" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="latitude" Type="float" Nullable="false" />
     <Property Name="longitude" Type="float" Nullable="false" />
     <Property Name="time" Type="datetime" Nullable="false" />
-    <Property Name="remarks" Type="nvarchar" Nullable="false" MaxLength="500" />
+    <Property Name="remarks" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="categoryId" Type="int" Nullable="false" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_9C7CF1_GeoData.dbo.Logger' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Logger">
+    <Key>
+      <PropertyRef Name="logId" />
+      <PropertyRef Name="log" />
+    </Key>
+    <Property Name="logId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="log" Type="varchar" MaxLength="1000" Nullable="false" />
+  </EntityType>
+  <Association Name="categoryId">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="GeoData" Type="Self.GeoData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="categoryId" />
+      </Principal>
+      <Dependent Role="GeoData">
+        <PropertyRef Name="categoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TGeoDataModelStoreContainer">
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Configs" EntityType="Self.Configs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GeoData" EntityType="Self.GeoData" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Logger" EntityType="Self.Logger" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+[Logger].[logId] AS [logId], 
+[Logger].[log] AS [log]
+FROM [dbo].[Logger] AS [Logger]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="categoryId" Association="Self.categoryId">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="GeoData" EntitySet="GeoData" />
+    </AssociationSet>
+  </EntityContainer>
 </Schema>

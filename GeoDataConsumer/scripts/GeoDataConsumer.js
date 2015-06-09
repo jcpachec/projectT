@@ -1,5 +1,5 @@
 ﻿var myCenter = new google.maps.LatLng(20.6583075, -103.4420149);
-var RootUrl = "http://localhost:50691/";
+var RootUrl = "http://aldonarreola-001-site1.smarterasp.net/";
 
 
 function initialize() {
@@ -38,7 +38,7 @@ function getMarkers() {
             });            
         },
         error: function (result, errorText, errorThrown) {
-            
+            var a=1;
         },
         beforeSend: function () {
             

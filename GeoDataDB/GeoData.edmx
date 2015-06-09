@@ -4,60 +4,137 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="TGeoDataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="TGeoDataModelStoreContainer">
-          <EntitySet Name="Configs" EntityType="TGeoDataModel.Store.Configs" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="GeoData" EntityType="TGeoDataModel.Store.GeoData" store:Type="Tables" Schema="dbo" />
-        </EntityContainer>
+    <Schema Namespace="TGeoDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="categoryId" />
+          </Key>
+          <Property Name="categoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Configs">
           <Key>
             <PropertyRef Name="ConfigId" />
           </Key>
-          <Property Name="ConfigId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Class" Type="nvarchar" Nullable="false" MaxLength="100" />
-          <Property Name="Attribute" Type="nvarchar" Nullable="false" MaxLength="100" />
-          <Property Name="Value" Type="nvarchar" Nullable="false" MaxLength="2000" />
+          <Property Name="ConfigId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Class" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Attribute" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="2000" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="GeoData">
           <Key>
             <PropertyRef Name="recordID" />
           </Key>
-          <Property Name="recordID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="description" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="recordID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="latitude" Type="float" Nullable="false" />
           <Property Name="longitude" Type="float" Nullable="false" />
           <Property Name="time" Type="datetime" Nullable="false" />
-          <Property Name="remarks" Type="nvarchar" Nullable="false" MaxLength="500" />
+          <Property Name="remarks" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="categoryId" Type="int" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_9C7CF1_GeoData.dbo.Logger' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Logger">
+          <Key>
+            <PropertyRef Name="logId" />
+            <PropertyRef Name="log" />
+          </Key>
+          <Property Name="logId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="log" Type="varchar" MaxLength="1000" Nullable="false" />
+        </EntityType>
+        <Association Name="categoryId">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="GeoData" Type="Self.GeoData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="categoryId" />
+            </Principal>
+            <Dependent Role="GeoData">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TGeoDataModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Configs" EntityType="Self.Configs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GeoData" EntityType="Self.GeoData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Logger" EntityType="Self.Logger" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[Logger].[logId] AS [logId], 
+[Logger].[log] AS [log]
+FROM [dbo].[Logger] AS [Logger]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="categoryId" Association="Self.categoryId">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="GeoData" EntitySet="GeoData" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TGeoDataModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="TGeoDataEntities" p1:LazyLoadingEnabled="true">
-          <EntitySet Name="GeoDatas" EntityType="TGeoDataModel.GeoData" />
+          <EntitySet Name="Categories" EntityType="TGeoDataModel.Category" />
           <EntitySet Name="Configs" EntityType="TGeoDataModel.Config" />
+          <EntitySet Name="GeoDatas" EntityType="TGeoDataModel.GeoData" />
+          <AssociationSet Name="categoryId" Association="TGeoDataModel.categoryId">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="GeoData" EntitySet="GeoDatas" />
+          </AssociationSet>
+          <EntitySet Name="Loggers" EntityType="TGeoDataModel.Logger" />
         </EntityContainer>
-        <EntityType Name="GeoData">
+        <EntityType Name="Category">
           <Key>
-            <PropertyRef Name="recordID" />
+            <PropertyRef Name="categoryId" />
           </Key>
-          <Property Name="recordID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="description" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
-          <Property Name="latitude" Type="Double" Nullable="false" />
-          <Property Name="longitude" Type="Double" Nullable="false" />
-          <Property Name="time" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="remarks" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="categoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GeoDatas" Relationship="TGeoDataModel.categoryId" FromRole="Category" ToRole="GeoData" />
         </EntityType>
         <EntityType Name="Config">
           <Key>
             <PropertyRef Name="ConfigId" />
           </Key>
-          <Property Type="Int32" Name="ConfigId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Class" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Attribute" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Value" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Remarks" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ConfigId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Class" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Attribute" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="GeoData">
+          <Key>
+            <PropertyRef Name="recordID" />
+          </Key>
+          <Property Name="recordID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="latitude" Type="Double" Nullable="false" />
+          <Property Name="longitude" Type="Double" Nullable="false" />
+          <Property Name="time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="remarks" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="categoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="TGeoDataModel.categoryId" FromRole="GeoData" ToRole="Category" />
+        </EntityType>
+        <Association Name="categoryId">
+          <End Type="TGeoDataModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="TGeoDataModel.GeoData" Role="GeoData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="categoryId" />
+            </Principal>
+            <Dependent Role="GeoData">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Logger">
+          <Key>
+            <PropertyRef Name="logId" />
+            <PropertyRef Name="log" />
+          </Key>
+          <Property Name="logId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="log" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -65,15 +142,11 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="TGeoDataModelStoreContainer" CdmEntityContainer="TGeoDataEntities">
-          <EntitySetMapping Name="GeoDatas">
-            <EntityTypeMapping TypeName="TGeoDataModel.GeoData">
-              <MappingFragment StoreEntitySet="GeoData">
-                <ScalarProperty Name="recordID" ColumnName="recordID" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="latitude" ColumnName="latitude" />
-                <ScalarProperty Name="longitude" ColumnName="longitude" />
-                <ScalarProperty Name="time" ColumnName="time" />
-                <ScalarProperty Name="remarks" ColumnName="remarks" />
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="TGeoDataModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -85,6 +158,27 @@
                 <ScalarProperty Name="Attribute" ColumnName="Attribute" />
                 <ScalarProperty Name="Class" ColumnName="Class" />
                 <ScalarProperty Name="ConfigId" ColumnName="ConfigId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GeoDatas">
+            <EntityTypeMapping TypeName="TGeoDataModel.GeoData">
+              <MappingFragment StoreEntitySet="GeoData">
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="time" ColumnName="time" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="recordID" ColumnName="recordID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Loggers">
+            <EntityTypeMapping TypeName="TGeoDataModel.Logger">
+              <MappingFragment StoreEntitySet="Logger">
+                <ScalarProperty Name="log" ColumnName="log" />
+                <ScalarProperty Name="logId" ColumnName="logId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -105,6 +199,7 @@
         <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->

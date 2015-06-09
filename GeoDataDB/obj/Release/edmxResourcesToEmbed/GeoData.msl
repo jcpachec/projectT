@@ -1,15 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="TGeoDataModelStoreContainer" CdmEntityContainer="TGeoDataEntities">
-    <EntitySetMapping Name="GeoDatas">
-      <EntityTypeMapping TypeName="TGeoDataModel.GeoData">
-        <MappingFragment StoreEntitySet="GeoData">
-          <ScalarProperty Name="recordID" ColumnName="recordID" />
-          <ScalarProperty Name="description" ColumnName="description" />
-          <ScalarProperty Name="latitude" ColumnName="latitude" />
-          <ScalarProperty Name="longitude" ColumnName="longitude" />
-          <ScalarProperty Name="time" ColumnName="time" />
-          <ScalarProperty Name="remarks" ColumnName="remarks" />
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="TGeoDataModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+          <ScalarProperty Name="categoryId" ColumnName="categoryId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -21,6 +17,27 @@
           <ScalarProperty Name="Attribute" ColumnName="Attribute" />
           <ScalarProperty Name="Class" ColumnName="Class" />
           <ScalarProperty Name="ConfigId" ColumnName="ConfigId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GeoDatas">
+      <EntityTypeMapping TypeName="TGeoDataModel.GeoData">
+        <MappingFragment StoreEntitySet="GeoData">
+          <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+          <ScalarProperty Name="remarks" ColumnName="remarks" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="longitude" ColumnName="longitude" />
+          <ScalarProperty Name="latitude" ColumnName="latitude" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="recordID" ColumnName="recordID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Loggers">
+      <EntityTypeMapping TypeName="TGeoDataModel.Logger">
+        <MappingFragment StoreEntitySet="Logger">
+          <ScalarProperty Name="log" ColumnName="log" />
+          <ScalarProperty Name="logId" ColumnName="logId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

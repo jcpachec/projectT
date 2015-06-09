@@ -15,18 +15,24 @@ namespace GeoDataDB
 using System;
     using System.Collections.Generic;
     
-public partial class Config
+public partial class Category
 {
 
-    public int ConfigId { get; set; }
+    public Category()
+    {
 
-    public string Class { get; set; }
+        this.GeoDatas = new HashSet<GeoData>();
 
-    public string Attribute { get; set; }
+    }
 
-    public string Value { get; set; }
 
-    public string Remarks { get; set; }
+    public int categoryId { get; set; }
+
+    public string categoryName { get; set; }
+
+
+
+    public virtual ICollection<GeoData> GeoDatas { get; set; }
 
 }
 

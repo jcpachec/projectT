@@ -5,8 +5,11 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="820d94de78064de9ba44cdce0596d89f" Name="Diagram1">
-        <EntityTypeShape EntityType="TGeoDataModel.GeoData" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TGeoDataModel.Config" Width="1.5" PointX="10.523245028463773" PointY="24.990957003548257" />
+        <EntityTypeShape EntityType="TGeoDataModel.Category" Width="1.5" PointX="0.75" PointY="1.375" />
+        <EntityTypeShape EntityType="TGeoDataModel.Config" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="TGeoDataModel.GeoData" Width="1.5" PointX="3" PointY="1" />
+        <AssociationConnector Association="TGeoDataModel.categoryId" />
+        <EntityTypeShape EntityType="TGeoDataModel.Logger" Width="1.5" PointX="3.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

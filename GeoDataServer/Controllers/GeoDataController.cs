@@ -2,6 +2,8 @@
 using GeoDataServer.Repo;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -16,36 +18,57 @@ namespace GeoDataServer.Controllers
         // GET api/geodata/5
         public IEnumerable<GeoData> Get()
         {
-            TGeoDataEntities dbContext = new TGeoDataEntities();
-                                  
-
-            string Mode = ConfigHelper.getValue("GlobalConfig", "Mode");
-
-            switch (Mode)
+           
+            try
             {
-                case "STOP": return null; 
+                TGeoDataEntities dbContext = new TGeoDataEntities();
+             
 
-                case "DEBUG": var locations = from k in dbContext.GeoDatas
-                                              select k;
-                    return locations.AsEnumerable();                    
+                string Mode = ConfigHelper.getValue("GlobalConfig", "Mode");
+            
+                switch (Mode)
+                {
+                    case "STOP": return new Collection<GeoData>();
+                    
 
-                case "NORMAL":
-                    BussinesLogic _bussinesLogic = new BussinesLogic();
-                    if (_bussinesLogic.IsTimeToDisplayMarkers())
-                    {
-                        DateTime initDate =  _bussinesLogic.getStartTimeforMarkers();
-                        DateTime endDate = _bussinesLogic.getStartTimeforMarkers().AddDays(1);
+                    case "DEBUG": var locations = from k in dbContext.GeoDatas
+                                                  select k;
+                        return locations.AsEnumerable();
 
-                        var locations1 = from k1 in dbContext.GeoDatas
-                                         where k1.time >= initDate && k1.time <= endDate
-                                         select k1;
-                        return locations1.AsEnumerable();
-                    }
+                    case "NORMAL":
+                        BussinesLogic _bussinesLogic = new BussinesLogic();
+                        if (_bussinesLogic.IsTimeToDisplayMarkers()) // TORITO! ;)
+                        {
+                            DateTime initDate = _bussinesLogic.getStartTimeforMarkers();
+                            DateTime endDate = _bussinesLogic.getStartTimeforMarkers().AddDays(1);
 
-                    break;
-            }           
+                            var locations1 = from k1 in dbContext.GeoDatas
+                                             where k1.time >= initDate && k1.time <= endDate && k1.categoryId == 1
+                                             select k1;
+                            return locations1.AsEnumerable();
+                        }
+                        else
+                        {
+                            var locations1 = from k1 in dbContext.GeoDatas //RETURN ALL OTHER CATEGORIES
+                                             where k1.categoryId != 1
+                                             select k1;
+                            return locations1.AsEnumerable();
+                        }
 
-            return null;
+                }
+            }
+            catch(Exception ex)
+            {
+                using (TGeoDataEntities dbContext = new TGeoDataEntities())
+                {
+                    Logger log = new Logger();
+                    log.log = ex.Message + " - " + ex.StackTrace; 
+                    dbContext.Loggers.Add(log);
+                    dbContext.SaveChanges();
+                }
+            }
+
+            return new Collection<GeoData>(); 
         }
                                           
         // GET api/geodata/5

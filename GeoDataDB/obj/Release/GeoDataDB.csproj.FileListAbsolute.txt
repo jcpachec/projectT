@@ -5,3 +5,10 @@ C:\ProjectT\ProjectT2\GeoDataDB\bin\Release\EntityFramework.dll
 C:\ProjectT\ProjectT2\GeoDataDB\bin\Release\EntityFramework.xml
 C:\ProjectT\ProjectT2\GeoDataDB\obj\Release\GeoDataDB.dll
 C:\ProjectT\ProjectT2\GeoDataDB\obj\Release\GeoDataDB.pdb
+C:\RESPALDO\TODO\projectT\GeoDataDB\bin\Release\GeoDataDB.dll.config
+C:\RESPALDO\TODO\projectT\GeoDataDB\bin\Release\GeoDataDB.dll
+C:\RESPALDO\TODO\projectT\GeoDataDB\bin\Release\GeoDataDB.pdb
+C:\RESPALDO\TODO\projectT\GeoDataDB\bin\Release\EntityFramework.dll
+C:\RESPALDO\TODO\projectT\GeoDataDB\bin\Release\EntityFramework.xml
+C:\RESPALDO\TODO\projectT\GeoDataDB\obj\Release\GeoDataDB.dll
+C:\RESPALDO\TODO\projectT\GeoDataDB\obj\Release\GeoDataDB.pdb

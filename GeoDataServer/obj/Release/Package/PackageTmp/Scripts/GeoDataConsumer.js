@@ -18,17 +18,26 @@ function initialize() {
     map.setCenter(myCenter);
 
 
-    function SetMarker(latitude, longitude, description) {
+    function SetMarker(latitude, longitude, description, categoryId) {
 
         var myCenter = new google.maps.LatLng(latitude, longitude);
+        var marker;
+        if (categoryId == 1) {
+            var image = 'images/ToroChido.png';
 
-        var image = 'images/ToroChido.png';
-
-        var marker = new google.maps.Marker({
-            position: myCenter,
-            icon: image,
-            title: description
-        });
+            marker = new google.maps.Marker({
+                position: myCenter,
+                icon: image,
+                title: description
+            });
+        }
+        else
+        {
+            marker = new google.maps.Marker({
+                position: myCenter,               
+                title: description
+            });
+        }
 
 
         marker.setMap(map);
@@ -45,14 +54,14 @@ function initialize() {
             url: RootUrl + "api/GeoData",
             type: "POST",
             cache: false,
-            data: JSON.stringify({ description: description, latitude: latitude, longitude: longitude, time: "2015-05-20T23:24:27.279449-05:00", remarks: "." }),
+            data: JSON.stringify({ description: description, latitude: latitude, longitude: longitude, time: "2015-05-20T23:24:27.279449-05:00", remarks: ".", categoryId:"1" }),
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
                 
             },
             error: function (result, errorText, errorThrown) {
-                
+                alert(result.responseText + errorText + errorThrown);
             },
             beforeSend: function () {
                 
@@ -77,7 +86,7 @@ function initialize() {
 
                 $.each(data, function (index, item) {
                                     
-                    SetMarker(item.latitude, item.longitude, item.description);
+                    SetMarker(item.latitude, item.longitude, item.description, item.categoryId);
                 });              
 
                 var latlngbounds = new google.maps.LatLngBounds();
@@ -92,7 +101,7 @@ function initialize() {
 
             },
             error: function (result, errorText, errorThrown) {
-
+                alert(result.responseText + errorText + errorThrown);
             },
             beforeSend: function () {
 
