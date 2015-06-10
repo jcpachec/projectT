@@ -7,6 +7,40 @@ namespace GeoDataServer.Repo
 {
     public class BussinesLogic
     {
+        public DateTime? GetNextStartTime()
+        {
+            TimeSpan startToday = TimeSpan.Parse(ConfigHelper.getValue("GlobalConfig", "StartTime")); // 10 PM
+            TimeSpan endNextDay = TimeSpan.Parse(ConfigHelper.getValue("GlobalConfig", "EndDate"));   // 5 AM
+            TimeSpan currentTime = DateTime.Now.TimeOfDay;
+            DateTime? nextStart;
+            if (startToday <= endNextDay)
+            {
+                // start and stop times are in the same day
+                if (currentTime >= startToday && currentTime <= endNextDay)
+                {
+                    nextStart = null;
+                }
+                else
+                    if (currentTime < endNextDay)
+                        nextStart = DateTime.Now.Date.Add(startToday);
+                    else
+                        nextStart = DateTime.Now.Date.AddDays(1).Add(startToday);
+            }
+            else
+            {
+                if (currentTime >= startToday || currentTime <= endNextDay)
+                {
+                    // current time is between start and stop
+                    nextStart = null;
+                }
+                else
+                {
+                    nextStart = DateTime.Now.Date.Add(startToday);
+                }
+            }
+            return nextStart;
+        }
+
 
         public bool IsTimeToDisplayMarkers()
         {          
