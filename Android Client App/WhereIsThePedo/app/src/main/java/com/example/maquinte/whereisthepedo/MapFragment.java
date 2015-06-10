@@ -140,6 +140,9 @@ public class MapFragment extends Fragment {
                 conn.setRequestProperty("Content-Type", "application/json");
 
                 JSONObject jsonParam = new JSONObject();
+
+
+                jsonParam.put("categoryId", "1");
                 jsonParam.put("description", ".");
                 jsonParam.put("latitude", params[1]);
                 jsonParam.put("longitude",  params[2]);
