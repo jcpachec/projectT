@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +28,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.gson.Gson;
 
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.Period;
 import org.json.JSONObject;
 
 import java.io.OutputStream;
@@ -37,9 +41,10 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Vector;
-
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -49,12 +54,8 @@ public class MapFragment extends Fragment {
 
     MapView mMapView;
     GoogleMap googleMap;
+    TextView chronometer;
 
-    public void addPlaces()
-    {
-
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,6 +76,9 @@ public class MapFragment extends Fragment {
 
         linearLayout.addView(txtView);
 
+        chronometer = txtView;
+
+        new RestClient2().execute("http://aldonarreola-001-site1.smarterasp.net/api/nexttime");
 
         mMapView = (MapView) v.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
@@ -94,33 +98,6 @@ public class MapFragment extends Fragment {
                 new RestClient().execute("http://aldonarreola-001-site1.smarterasp.net/api/geoData");
             }
         });
-
-        googleMap.setOnMarkerClickListener(
-                new GoogleMap.OnMarkerClickListener() {
-
-                    @Override
-                    public boolean onMarkerClick(Marker arg0) {
-                        Log.i("Markerinfo",Double.toString(arg0.getPosition().latitude));
-                        Log.i("Markerinfo",Double.toString(arg0.getPosition().longitude));
-                        return false;
-                    }
-
-                }
-    );
-
-            googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-
-                @Override
-                public void onMapLongClick(LatLng arg0) {
-
-                    googleMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(arg0.latitude, arg0.longitude))
-                            .title("New Marker"));
-
-                    new RestClientPost().execute("http://aldonarreola-001-site1.smarterasp.net/api/geoData", Double.toString(arg0.latitude), Double.toString(arg0.longitude));
-
-                }
-            });
 
         return v;
     }
@@ -217,8 +194,6 @@ public class MapFragment extends Fragment {
         }
     }
 
-
-
     private class RestClient extends AsyncTask<String, Void, Vector> {
         @Override
         protected Vector doInBackground(String... serverUrl){
@@ -287,6 +262,90 @@ public class MapFragment extends Fragment {
             LatLngBounds bounds = builder.build();
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
             googleMap.animateCamera(cu);
+        }
+    }
+
+    private class RestClient2 extends AsyncTask<String, Void, DateTime> {
+        @Override
+        protected DateTime doInBackground(String... serverUrl){
+            DateTime date = null;
+
+
+            try {
+                URL url = new URL(serverUrl[0]);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("Accept", "application/json");
+
+                if (conn.getResponseCode() != 200) {
+                    throw new RuntimeException("Failed : HTTP error code : "
+                            + conn.getResponseCode());
+                }
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        (conn.getInputStream())));
+
+                String output;
+                System.out.println("Output from Server .... \n");
+                StringBuilder builder = new StringBuilder();
+                String aux = "";
+                while ((aux = reader.readLine()) != null) {
+                    builder.append(aux);
+                }
+                String jsonInString = builder.toString();
+
+                final Gson gson = new Gson();
+                Date javaDate = gson.fromJson(jsonInString, Date.class);
+                date = new DateTime(javaDate);
+                conn.disconnect();
+
+            } catch (MalformedURLException e) {
+
+                e.printStackTrace();
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+
+            }
+            catch (Exception e) {
+
+                e.printStackTrace();
+
+            }
+            return date;
+        }
+
+        @Override
+        protected void onPostExecute(DateTime date) {
+            //mMapView = (MapView) v.findViewById(R.id.mapView);
+            Interval interval = new Interval(new DateTime(), date);
+            final Period period = interval.toPeriod();
+            new CountDownTimer(period.toStandardDuration().getMillis(), 1000) {
+
+                public void onTick(long millisUntilFinished) {
+                    long hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished);
+                    millisUntilFinished -= TimeUnit.HOURS.toMillis(hours);
+                    long minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished);
+                    millisUntilFinished -= TimeUnit.MINUTES.toMillis(minutes);
+                    long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
+
+                    StringBuilder sb = new StringBuilder(64);
+                    sb.append("La fiesta empieza en:");
+                    sb.append(hours);
+                    sb.append(" Hours ");
+                    sb.append(minutes);
+                    sb.append(" Minutes ");
+                    sb.append(seconds);
+                    sb.append(" Seconds");
+
+                    chronometer.setText(sb.toString());
+                }
+
+                public void onFinish() {
+                    chronometer.setText("done!");
+                }
+            }.start();
         }
     }
 

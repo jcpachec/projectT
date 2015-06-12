@@ -12,31 +12,16 @@ public class MainActivity extends FragmentActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
-        addChronometer();
-        //addMapFragment();
-
-
-        Log.i("Julio", "Here");
         setContentView(R.layout.activity_map_fragment);
         addMapFragment();
-
-
     }
-    private void addChronometer() {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        ChronometerFragment fragment = new ChronometerFragment();
-        transaction.add(R.id.fragment_container, fragment, "chronometer");
-        transaction.commit();
 
-    }
     private void addMapFragment() {
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         MapFragment fragment = new MapFragment();
-        transaction.add(R.id.fragment_container, fragment, "map");
+        transaction.add(R.id.mapView, fragment);
         transaction.commit();
     }
 }
