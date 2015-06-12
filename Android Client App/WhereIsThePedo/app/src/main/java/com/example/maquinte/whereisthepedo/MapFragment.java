@@ -1,6 +1,7 @@
 package com.example.maquinte.whereisthepedo;
 
 import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -46,12 +50,32 @@ public class MapFragment extends Fragment {
     MapView mMapView;
     GoogleMap googleMap;
 
+    public void addPlaces()
+    {
+
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // inflate and return the layout
         View v = inflater.inflate(R.layout.activity_map_fragment, container,
                 false);
+
+        RelativeLayout  linearLayout = (RelativeLayout) v;
+
+        TextView txtView = new TextView(getActivity()); // needs activity context
+        txtView.setText("Timer left:");
+        txtView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
+        txtView.setLayoutParams(new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT));
+
+        linearLayout.addView(txtView);
+
+
         mMapView = (MapView) v.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();// needed to get the map to display immediately

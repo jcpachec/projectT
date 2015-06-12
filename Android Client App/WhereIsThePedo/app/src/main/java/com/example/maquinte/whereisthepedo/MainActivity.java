@@ -16,11 +16,15 @@ public class MainActivity extends FragmentActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.i("Julio", "Here");
         setContentView(R.layout.activity_map_fragment);
         addMapFragment();
+
     }
 
     private void addMapFragment() {
+
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         MapFragment fragment = new MapFragment();
